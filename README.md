@@ -19,5 +19,5 @@ curl -fsSL https://mongoose-os.com/downloads/mos/install.sh | /bin/bash
 cd ~/.mos/apps.1.21
 git clone https://github.com/OffGridNetworks/mos-esp32-oled.git
 cd mos-esp32-oled
-mos build --platform esp32 && flash
+mos build --platform esp32 && mos flash
 ```

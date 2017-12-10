@@ -8,6 +8,7 @@ Adafruit_SSD1306._spl = ffi('void ssd1306_splash(void *, void *)');
 Adafruit_SSD1306._proto.splash = function (data) { Adafruit_SSD1306._spl(this.ssd, data); };
 Adafruit_SSD1306._dbm = ffi('void ssd1306_drawBitmap(void *, void *, int, int, int, int)');
 Adafruit_SSD1306._proto.drawBitmap = function (data, x, y, w, h) { Adafruit_SSD1306._dbm(this.ssd, data, x, y, w, h); };
+let free = ffi('void free(void *)');
 
 // Polyfills
 
@@ -22,12 +23,18 @@ d.begin(Adafruit_SSD1306.SWITCHCAPVCC, 0x3C, true);
 
 // Main
 function main() {
+  let logo2 = atob("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADgAAAAAAAAAeAAAAAAAAAD4AAAAAAAAAfgAAAAAAAAD8AAAAAAAAAfwAAAAAAAAB/AAAAAAAAAP4AAAAAAAAB/gAAAAAAAAP+AAAAAAAAAf4AAAAAAAB//AAAAAAAA//8AAAAAAAP//wAAAAAAD///AAAAAAAf//+AAAAAAB///8AAAAAAAYA/4AAAAAAAAA/wAAAAAAAAB/gAAAAAAAAD/AAAAAAAAAH+AAAAAAAAAf8AAAAAAAAA/4AAAAAAAAD/gAAAAAAAAP/AAAAAAAAAf8AAAAAAAAB/4AAAAAAAAH/gAAAAAAAAf/AAAAAAAAB/8AAAAAAAAD/wAAAAAAAAP/gAAAAAAAA/+AAAAAAAAD/4AAAAAAAAD/gAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAQAgBACAAAAf8/5/z/gAAD///////AAAP//////8AAA8f4/x/jwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=");
   d.clearDisplay();
+  d.drawBitmap(logo2, 0, 0, 64, 64);
   d.setTextColor(Adafruit_SSD1306.WHITE);
-  d.setTextWrap(true);
   d.setTextSize(2);
-  d.write("Hello\nworld!\n")
+  d.setCursor(65, 20)
+  d.write("10.0")
+  d.setTextSize(1);
+  d.setCursor(100, 35)
+  d.write("cm")
   d.display();
+  free(logo2);
 }
 
 // Init
@@ -36,7 +43,8 @@ function init() {
   d.clearDisplay();
   d.splash(logo);
   d.display();
-  Timer.set(1000, false, main, null);
+  free(logo);
+  Timer.set(3000, false, main, null);
 }
 
 
