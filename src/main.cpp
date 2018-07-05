@@ -1,3 +1,4 @@
+#include "mgos.h"
 #include "mgos_arduino_ssd1306.h"
 
 #ifdef __cplusplus
